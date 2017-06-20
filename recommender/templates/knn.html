@@ -1,0 +1,32 @@
+ {% extends 'base.html' %}
+ {% load crispy_forms_tags %}
+
+ {% block one %}
+                <h1> Hello from login page</h1>
+ {% endblock %}
+
+{% block body %}
+
+ <h2>Recommended Universities for {{ user.username }}</h2>
+        {% for universities in list %}
+
+ <b><p><a href="{% url 'home:home' %}">{{ universities }}</a></p></b>
+        {% endfor %}
+
+
+
+
+{% endblock %}
+{% block two %}
+            <h1><br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+
+            </h1>
+            {% endblock %}

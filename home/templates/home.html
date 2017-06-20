@@ -1,0 +1,56 @@
+            {% extends 'base.html' %}
+{% block one %}
+           <h1>
+            <br/>
+           </h1>
+{% endblock %}
+            {% block body %}
+
+
+
+
+            <div  class='col-md-8'>
+                <h2><b>University Search</b></h2>
+                        <form role="search" method="get"
+                                action="{% url 'home:home' %}">
+                        <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search University"
+                           name="q" value="{{ request.GET.q }}">
+                        </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+                        </form>
+            </div>
+
+            {% endblock %}
+            {% block two %}
+
+            <div  class='col-md-8'>
+                {% for university in detail %}
+            <b><p>University Name:{{university}}</p></b>
+
+            {% endfor %}
+            </div>
+
+
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>    <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>    <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/><br/><br/>
+
+            {% endblock %}

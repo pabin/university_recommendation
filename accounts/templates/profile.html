@@ -1,0 +1,46 @@
+ {% extends 'base.html' %}
+ {% load crispy_forms_tags %}
+
+ {% block one %}
+                <h1> Hello from login page</h1>
+ {% endblock %}
+
+{% block body %}
+
+<h1> {{ user.username }}'s Profile </h1>
+ <h3>
+        {% for student_profile in all_student_info %}
+     <ul><li>
+         First Name:    {{student_profile.First_Name}}<br/>
+         Last Name:     {{student_profile.Last_Name}}<br/>
+         Intended Major:   {{student_profile.Intended_Major}}<br/>
+         UnderGrad GPA:     {{student_profile.UnderGrad_GPA}}<br/>
+         GRE Verbal Score:  {{student_profile.GRE_Verbal_Score}}<br/>
+         GRE Quant Score:   {{student_profile.GRE_Quant_Score}}<br/>
+         GRE AWA Score:     {{student_profile.GRE_AWA_Score}}<br/>
+     <br/>
+     <b><a href="{% url 'accounts:edit_profile' %}">
+     Edit Profile</a></b>
+     </ul></li>
+        {% endfor %}
+ </h3>
+ <br/>
+
+ <h3><a href="{% url 'recommender:knn_model' %}">
+     Recommended Universities By KNN Algorithm</a></h3>
+     </a></h3>
+
+
+{% endblock %}
+
+{% block two %}
+            <h1><br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+
+
+            </h1>
+            {% endblock %}

@@ -1,0 +1,37 @@
+ {% extends 'base.html' %}
+ {% load crispy_forms_tags %}
+
+ {% block one %}
+                <h1> Hello from login page</h1>
+ {% endblock %}
+
+{% block body %}
+
+<h1> Edit {{ user.username }}'s Profile </h1>
+ <h3>
+
+
+                <form method = "POST">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <button type="Submit">SAVE</button>
+                </form>
+
+
+
+ </h3>
+
+
+{% endblock %}
+
+{% block two %}
+            <h1><br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+
+
+            </h1>
+            {% endblock %}
