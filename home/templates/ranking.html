@@ -1,0 +1,99 @@
+ {% extends 'base.html' %}
+ {% load staticfiles %}
+ {% load crispy_forms_tags %}
+
+ {% block one %}
+ {% endblock %}
+
+ {% block body %}
+ <div class='container' style="min-height:50%;">
+     <div class="panel-footer" style="margin: 10px 0px 10px 0px; height: 40px;
+                                padding: 0px 0px 10px 15px;">
+         <h4><b>University Ranking</b></h4>
+     </div>
+
+         <nav style="margin-left:72%; margin-top:-2%;">
+  <ul class="pagination pagination-lg">
+      {% if ranking.has_previous %}
+    <li class="page-item">
+        <a class="page-link" href="?page={{ ranking.previous_page_number }}" tabindex="-1">Previous</a>
+    </li>
+      {% endif %}
+      <li class="page-item"><a>
+              Page {{ ranking.number }} of {{ ranking.paginator.num_pages }}
+      </a></li>
+
+      {% if ranking.has_next %}
+    <li class="page-item">
+        <a class="page-link" href="?page={{ ranking.next_page_number }}">Next</a>
+    </li>
+      {% endif %}
+
+  </ul>
+</nav>
+
+  {% for ranking in ranking %}
+     <div class="col-sm-6">
+
+     <img src="{% static 'recommender/college5.jpg' %}" class="img-thumbnail" style="height: 160px; width:200px;">
+        <tr>
+            <td>
+                <h4><b> {{ ranking }}</b></h4>
+            </td>
+
+            <td><div class="col-sm-2">
+                <form action="{% url 'home:home' %}" method="get" style="display: inline;">
+            <input type="hidden" name="q" value="{{ ranking }}" />
+            <button type="submit" class="btn btn-primary btn-xs" value = "{{ request.POST.q }}"
+            style="margin-left:-12px;">
+                &nbsp; View Details
+            </button>
+                </form></div>
+            </td>
+
+            <td>
+                <div class="col-sm-2">
+            <form class="form-inline" role="search" method="get"
+            action="{% url 'accounts:student_dashboard' %}">
+                 <input type='hidden' class="form-control"
+                    name="q" value="{{ ranking }}">
+            <button class="btn btn-default btn-xs"><b>
+                    SAVE </b>
+            </button>
+            </form></div>
+            </td>
+        </tr><br/><br/><br/>
+    </div>     {% endfor %}
+
+  </div>
+
+ <nav style="margin-left:72%;">
+  <ul class="pagination pagination-lg">
+      {% if ranking.has_previous %}
+    <li class="page-item">
+        <a class="page-link" href="?page={{ ranking.previous_page_number }}" tabindex="-1">Previous</a>
+    </li>
+      {% endif %}
+      <li class="page-item"><a>
+              Page {{ ranking.number }} of {{ ranking.paginator.num_pages }}
+      </a></li>
+
+    <!--<li class="page-item"><a class="page-link" href="#">1</a></li>-->
+    <!--<li class="page-item"><a class="page-link" href="#">2</a></li>-->
+    <!--<li class="page-item"><a class="page-link" href="#">3</a></li>-->
+    <!--<li class="page-item"><a class="page-link" href="#">4</a></li>-->
+    <!--<li class="page-item"><a class="page-link" href="#">5</a></li>-->
+
+      {% if ranking.has_next %}
+    <li class="page-item">
+        <a class="page-link" href="?page={{ ranking.next_page_number }}">Next</a>
+    </li>
+      {% endif %}
+
+
+
+  </ul>
+</nav>
+
+ {% endblock %}
+

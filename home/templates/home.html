@@ -1,56 +1,384 @@
-            {% extends 'base.html' %}
-{% block one %}
-           <h1>
-            <br/>
-           </h1>
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+
+{% block home_body %}
+
+
+
+{% if university_name == None %}
+<!-- Carousel
+================================================== -->
+<div id="myCarousel" class="carousel slide">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+    <li data-target="#myCarousel" data-slide-to="1"></li>
+    <li data-target="#myCarousel" data-slide-to="2"></li>
+    <li data-target="#myCarousel" data-slide-to="3"></li>
+
+  </ol>
+  <div class="carousel-inner">
+    <div class="item active">
+      <img src="{% static 'home/uni1.jpg' %}">
+      <div class="container">
+        <div class="carousel-caption">
+            <h4>University of Notre Dame</h4>
+            <h6>Notre Dame, IN 46556, USA</h6>
+        </div>
+      </div>
+    </div>
+    <div class="item">
+      <img src="{% static 'home/uni2.jpg' %}">
+      <div class="container">
+        <div class="carousel-caption">
+        </div>
+      </div>
+    </div>
+    <div class="item">
+      <img src="{% static 'home/uni3.jpg' %}">
+      <div class="container">
+        <div class="carousel-caption">
+            <h4>University of Vermont</h4>
+            <h6>Burlington, VT 05405, USA</h6>
+        </div>
+      </div>
+    </div>
+    <div class="item">
+      <img src="{% static 'home/uni4.jpg' %}">
+      <div class="container">
+        <div class="carousel-caption">
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div align="center" id="searchForm" style="padding:0px 0px 0px 250px; margin: 0 0 0 0">
+        <h1 style="font-size: 40px"><b><font color="white">
+                                    Find your Dream University!
+                            </font></b></h1>
+        <button class="btn btn-outline btn-lg" style="background-color: rgba(245,245,245, 0.3); height: 80px;">
+            <form class="form-inline" role="search" method="get"
+              action="{% url 'home:home' %}">
+                <div class="form-group form-group-lg">
+                    <input type="text" class="form-control" placeholder="Search by name..."
+                       name="q" value="{{ request.GET.q }}" style="width: 700px; height:50px; margin-top:3.5px;">
+                    <button type="submit" class="btn btn-success btn-lg" style="width: 130px; height: 80px">
+                        <span class="glyphicon glyphicon-search" style="font-size: 15px;"></span>
+                            SEARCH
+                    </button>
+                </div>
+            </form>
+        </button>
+    </div>
+
+
+
+
+  <!-- Controls -->
+  <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+    <i class="glyphicon glyphicon-chevron-left"></i>
+  </a>
+  <a class="right carousel-control" href="#myCarousel" data-slide="next">
+    <i class="glyphicon glyphicon-chevron-right"></i>
+  </a>
+</div>
+<!-- /.carousel -->
+{% endif %}
 {% endblock %}
-            {% block body %}
+
+{% if error_message != None %}
+
+<div class="container">
+    <h2> {{ error_message }}</h2>
+</div>
+{% endif %}
 
 
 
+{% block body %}
+{% if university_name != None %}
+<br/>
+    <div class="container">
 
-            <div  class='col-md-8'>
-                <h2><b>University Search</b></h2>
-                        <form role="search" method="get"
-                                action="{% url 'home:home' %}">
-                        <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search University"
-                           name="q" value="{{ request.GET.q }}">
-                        </div>
-                <button type="submit" class="btn btn-default">Submit</button>
-                        </form>
-            </div>
+        <span class="glyphicon glyphicon-education" style="font-size: 30px; color:black;"></span>
+        <font size="6px" color="black"><b>{{ university_name }}</b>
+     <div class="form-group" style="margin: 0px 0px 0px 0px;">
+                    <div class="col-sm-3">
+                                {% if user.username %}
+               <form class="form-inline" role="search" method="get"
+                    action="{% url 'recommender:admission_prediction_using_knn' %}">
+                         <input  type='hidden' class="form-control"
+                            name="q" value="{{ university_name }}">
 
-            {% endblock %}
-            {% block two %}
+                    <button class="btn btn-info btn-sm"><b>
+                            CHECK ADMISSION PREDICTION</b>
+                    </button>
+               </form>
+                        {% else %}
+               <form class="form-inline" role="search" method="get"
+                    action="{% url 'accounts:login_user' %}">
+                         <input  type='hidden' class="form-control"
+                            name="q" value="{{ university_name }}">
 
-            <div  class='col-md-8'>
-                {% for university in detail %}
-            <b><p>University Name:{{university}}</p></b>
+                    <button class="btn btn-info btn-sm"><b>
+                            CHECK ADMISSION PREDICTION</b>
+                    </button>
+               </form>
+                        {% endif %}
 
-            {% endfor %}
-            </div>
+                    </div>
+                    <div class="col-sm-3">
+            <form class="form-inline" role="search" method="get"
+            action="{% url 'accounts:student_dashboard' %}"">
+                 <input type='hidden' class="form-control"
+                    name="q" value="{{ university_name }}">
+            <button class="btn btn-info btn-sm" style="margin-left:-50px;"><b>
+                    SAVE UNIVERSITY</b>
+            </button>
+            </form></div>
+     </div>
+        </font>
+
+    <table class="table table-bordered" style="margin-top:-15px;">
+        <tbody>
+
+             <tr>
+                <th class="col-md-3">University Name</th>
+                    <td>{{ university_name }}</td>
+             </tr>
+             <tr>
+                <th>Acceptance Rate</th>
+                    <td>{{ acceptance_rate }} %
+                         {{ div|safe }}
+                        {{ script|safe }}
+                    </td>
+             </tr>
+             <tr>
+                <th>Average GRE  <br/>Minimum GRE<br/>Maximum GRE </th>
+                    <td>{{ average_gre }} <br/> {{ min_gre }} <br/> {{ max_gre }}
+                        {{ div_for_gre|safe }}
+                        {{ script_for_gre|safe }}
+                    </td>
+             </tr>
+
+              <tr>
+                <th>Average GPA <br/>Minimum GPA<br/>Maximum GPA </th>
+                    <td>{{ average_gpa }} <br/> {{ min_gpa }} <br/> {{ max_gpa }}
+                        {{ div_for_gpa|safe }}
+                        {{ script_for_gpa|safe }}
+                    </td>
+             </tr>
+             <tr>
+             <tr>
+                <th>Average TOEFL <br/>Minimum TOEFL <br/>Maximum TOEFL </th>
+                    <td>{{ average_toefl }} <br/> {{ min_toefl }} <br/> {{ max_toefl }}
+                        {{ div_for_toefl|safe }}
+                        {{ script_for_toefl|safe }}
+                    </td>
+             </tr>
+                <th>Total Major Available</th>
+                    <td>{{ total_majors }}</td>
+             </tr>
+
+             <tr>
+                <!--<th>List of Majors</th>-->
+                <!--<td> {% for final_top_majors in final_top_majors %}-->
+                    <!--{{ final_top_majors }} <br/>-->
+                    <!--{% endfor %}</td>-->
+             <!--</tr>-->
+        </tbody>
+    </table>
+</div>
+{% endif %}
+{% endblock %}
+
+{% if query == None %}
+{% block two %}
+<div class="container-fluid" style="background-color: #6CAD64; align:center;">
+    <div class="container" style="padding:20px 0px 20px 40px">
+        <center><font color="white" size="5px"><b>Learn more about GRE General Test | Registration |
+                    Dates | Centers</b>
+                <a href="https://www.ets.org/gre" target="_blank">
+                            <button class="btn btn-danger"><b>GRE GENERAL TEST</b></button>
+                </a>
+                </font>
+        </center>
+    </div>
+</div>
+
+<div class="container">
+<div class="container-fluid">
+<div class="container" style="padding:20px 0px 0px 0px">
+ <font color="white" align="center" size="5px" style="font-weight:bold;">
+
+    <div class="col-md-6" style="background:transparent url('{% static 'home/ad2.jpg' %}') no-repeat;
+                                     height:367px; width:550px; margin:12px 20px 15px 0px;" >
+        <br/>UNIVERSITY RECOMMENDATION
+         <hr style = 'background-color:#fff000; border-width:0px; color:#fff000;
+                height:6px; text-align: center; width:50%;' />
+                <span class="glyphicon glyphicon-education" style="font-size: 100px;"></span><br/><br/>
+        <h4>We help you to find best Universities and Colleges based on your profile and scores</h4>
+        {% if user.username %}
+        <a href="{% url 'recommender:knn_model' %}">
+        <button type="button" class="btn btn-primary" style="border-radius: 30px; height:50px">
+                <b><font size="4px">Get Best Universities</font> </b>
+        </button></a>
+        {% else %}
+        <a href="{% url 'accounts:login_user' %}">
+        <button type="button" class="btn btn-primary" style="border-radius: 30px; height:50px">
+                <b><font size="4px">Get Best Universities</font> </b>
+        </button></a>
+        {% endif %}
+    </div>
+
+     <div class="col-md-6" style="background:transparent url('{% static 'media/ad1.jpg' %}') no-repeat;
+                                     height:367px; width:550px; margin:12px 2px 15px 20px;">
+         <div class="container-fluid full" style="background:transparent url('{% static 'home/ad1.jpg' %}')
+          no-repeat;"></div>
+        <br/>ADMISSION PREDICTION
+         <hr style = 'background-color:#fff000; border-width:0px; color:#fff000;
+                height:6px; text-align: center; width:50%;' />
+                <span class="glyphicon glyphicon-search" style="font-size: 100px;"></span><br/><br/>
+         <h4>We Predict your admission probability in any Universities on the basis of scores </h4>
+        {% if user.username %}
+        <a href="{% url 'home:home' %}">
+        <button type="button" class="btn btn-primary" style="border-radius: 30px; height:50px">
+                <b><font size="4px">Predict Admission</font> </b>
+        </button></a>
+        {% else %}
+        <a href="{% url 'accounts:login_user' %}">
+        <button type="button" class="btn btn-primary" style="border-radius: 30px; height:50px">
+                <b><font size="4px">Predict Admission</font> </b>
+        </button></a>
+        {% endif %}
+     </div>
+
+    <div class="col-md-6" style="background:transparent url('{% static 'home/ad3.jpg' %}') no-repeat;
+                                     height:367px; width:550px; margin:20px 20px 15px 0px;" >
+        <br/>APPLICATION ESSAY EVALUATION
+                 <hr style = 'background-color:#fff000; border-width:0px; color:#fff000;
+                height:6px; text-align: center; width:50%;' />
+                <span class="glyphicon glyphicon-pencil" style="font-size: 100px;"></span><br/><br/>
+        <h4>We evaluate your College application essay and recommendation letter</h4>
+            <button type="button" class="btn btn-primary" style="border-radius: 30px; height:50px">
+                <b><font size="4px">Evaluate your Essay</font> </b>
+            </button>
+    </div>
+
+    <div class="col-md-6" style="background:transparent url('{% static 'home/ad4.jpg' %}') no-repeat;
+                                     height:367px; width:550px; margin:20px 2px 15px 20px;" >
+        <br/>ADMISSION GUIDANCE
+                 <hr style = 'background-color:#fff000; border-width:0px; color:#fff000;
+                height:6px; text-align: center; width:50%;' />
+                <span class="glyphicon glyphicon-book" style="font-size: 100px;"></span><br/><br/>
+        <h4>Get admission related articles and find more about admission procedures</h4>
+            <button type="button" class="btn btn-primary" style="border-radius: 30px; height:50px">
+                <b><font size="4px">Admission Guidelines</font> </b>
+            </button>
+    </div>
+ </font>
+</div>
+</div>
+</div>
 
 
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>    <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>    <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/><br/><br/>
+<div class="container-fluid" style="margin-top:10px">
+<div class="container">
+    <h3 style="margin-left:10px;"><b>DISCOVER MORE</b></h3>
+    <div class="col-md-3" style="padding:10px 10px 10px 10px">
+     <img src="{% static 'home/college2.jpg' %}" class="img-thumbnail">
+            <a href="{% url 'recommender:college_ranking' %}">
+            <button class="btn btn-success btn-sm" style="width:100%;"><b>
+                UNIVERSITIES RANKING</b>
+            </button></a>
+    </div>
 
-            {% endblock %}
+     <div class="col-md-3" style="padding:10px 10px 10px 10px">
+     <img src="{% static 'home/college2.jpg' %}" class="img-thumbnail">
+            <a href="{% url 'home:home' %}">
+            <button class="btn btn-success btn-sm" style="width:100%;"><b>
+                UNIVERSITY RESEARCH</b>
+            </button></a>
+     </div>
+
+    <div class="col-md-3" style="padding:10px 10px 10px 10px">
+     <img src="{% static 'home/college2.jpg' %}" class="img-thumbnail">
+            <a href="{% url 'home:home' %}">
+            <button class="btn btn-danger btn-sm" style="width:100%;"><b>
+                SEARCH BEST UNIVERSITY</b>
+            </button></a>
+    </div>
+
+    <div class="col-md-3" style="padding:10px 10px 10px 10px">
+     <img src="{% static 'home/college2.jpg' %}" class="img-thumbnail">
+            <a href="{% url 'recommender:college_ranking' %}">
+            <button class="btn btn-danger btn-sm" style="width:100%;"><b>
+                UNIVERSITY NEWS</b>
+            </button></a>
+</div>
+</div>
+
+
+<style>
+body {
+  padding-bottom: 0px;
+  color: #5a5a5a;
+}
+
+
+/* CUSTOMIZE THE CAROUSEL
+-------------------------------------------------- */
+
+.carousel {
+  margin-bottom: 0px;
+}
+
+.carousel-control {
+  top: -22%;
+}
+
+.carousel-caption {
+  z-index: 10;
+}
+
+.carousel .item {
+  height: 500px;
+  background-color:#bbb;
+  overflow:hidden;
+}
+.carousel img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  height: 500px;
+}
+
+#searchForm {
+	position:absolute;
+  	top:20%;
+
+}
+
+/* RESPONSIVE CSS
+-------------------------------------------------- */
+@media (max-width: 768px) {
+
+  .carousel-inner>.item>img, .carousel-inner>.item>a>img {
+  	max-width:inherit;
+  }
+
+  .carousel-caption p {
+    margin-bottom: 20px;
+    font-size: 21px;
+    line-height: 1.4;
+  }
+}
+</style>
+
+<script>$("#carousel").carousel();</script>
+{% endblock %}
+{% endif %}
+</div>

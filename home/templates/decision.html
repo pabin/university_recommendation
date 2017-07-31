@@ -1,0 +1,48 @@
+ {% extends 'base.html' %}
+ {% load crispy_forms_tags %}
+ {% load staticfiles %}
+
+ {% block one %}
+ {% endblock %}
+
+{% block body %}
+
+{% if admission_decision_accuracy != None %}
+<div class="container">
+    <h3 align="left">Your Admission Prediction in <b>{{ university_name }}</b></h3>
+<br/>
+     {{ div|safe }}
+
+    {{ script|safe }}
+
+</div>
+{% endif %}
+
+ {% if no_major_available != None %}
+  <div class="container">
+        <h3 align="left">Your Admission Prediction in <b>{{ university_name }}</b></h3>
+                    <b>
+                        <h2> {{ no_major_available }} is not available in {{ university_name }}</h2>
+                    </b>
+ </div>
+ {% endif %}
+
+  {% if insufficient_data != None %}
+ <div class="container">
+        <h3 align="left">Your Admission Decision in {{ university_name }}</h3>
+                    <b>
+                        <h2> {{ insufficient_data }}</h2>
+                    </b>
+ </div>
+ {% endif %}
+
+<br/>
+<br/>
+<br/>
+ <br/>
+<br/>
+<br/>
+ <br/>
+<br/>
+<br/>
+{% endblock %}

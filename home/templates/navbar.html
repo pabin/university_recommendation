@@ -1,65 +1,114 @@
+{% load staticfiles %}
 
-<nav class="navbar navbar-inverse navbar-fixed-top " role="navigation">
-    <style> .navbar-inverse {
-    background-color: #0E446C;
-    border-color: #000000;
-}</style>
-          <div class="container-fluid">
+<nav class="navbar navbar-fixed-top">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
 
-              <a class="navbar-brand" href="{% url 'home:home' %}"><b>CollegeBoard</b></a>
+              <a class="navbar-brand" href="{% url 'home:home' %}">
+                  <img src="{% static 'home/superfinallogo.png' %}"
+                       style="width:140x; height: 35px; margin-top: -8px;">
+              </a>
+    </div>
 
-                <ul class="navbar-header navbar-left">
-                    <ul class="nav navbar-nav">
+<style>
+    .navbar {
+    background-color: #212020;
+    }
 
-                        {% url 'university' as university %}
-                        {% url 'accounts' as accounts %}
+    .navbar .navbar-nav > li > a:hover,
+    .navbar .navbar-nav > li > a:focus {
+      color: black;
+      background-color: #006AB4;
+      text-decoration: none;
+    }
+</style>
 
+      {% url 'accounts' as accounts %}
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+          <li {% if request.path == accounts %} class="active" {% endif %}>
+              <a href="{% url 'recommender:college_ranking' %}">
+                    <b><font color="#D0CEC5">UNIVERSITY RANKING</font>
+                    </b>
+              </a>
+          </li>
+          <li>{% if user.username %}
+              <a href="{% url 'accounts:student_dashboard' %}">
+                  <b><font color="#D0CEC5">USER DASHBOARD</font></b>
+              {% endif %}
+              </a>
+          </li>
+          <li>{% if user.username %}
+              <a href="{% url 'accounts:display_student_profile' %}">
+                  <b><font color="#D0CEC5">USER PROFILE</font></b>
+                  {% endif %}
+              </a>
+          </li>
 
+        <li class="dropdown">
+          <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button"
+             aria-haspopup="true" aria-expanded="false">
 
-                    <li {% if request.path == accounts %} class="active" {% endif %}>
-                        <a href="{% url 'accounts:register' %}">REGISTER   </a></li>
+              {% if user.username %}
+              <b><font color="#D0CEC5">SETTING</font></b>
+              {% else %}
+              <b><font color="#D0CEC5">MORE</font></b>
+                {% endif %}
 
+              <font color="#D0CEC5"><span class="caret"></span></font></a>
+          <ul class="dropdown-menu">
+            <li><a href="">CONTACT</a></li>
+            <li><a href="{% url 'accounts:about_us' %}">ABOUT US</a></li>
+            <li><a href="{% url 'accounts:about_us' %}">UNIGRADE TEAM</a></li>
+              {% if user.username %}
+            <li role="separator" class="divider"></li>
+            <li><a href="">DELETE</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="{% url 'accounts:logout_user' %}">LOGOUT</a></li>
+              {% endif %}
+          </ul>
+        </li>
+      </ul>
 
-
-                          <form class="navbar-form navbar-left" role="search" method="get"
-                                action="#">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search University"
-                           name="q" value="{{ request.GET.q }}">
-                </div>
-                <button type="submit" class="btn btn-default">Submit</button>
-                        </form>
-
-
-                        <ul class="nav navbar-nav navbar-right">
-
-                            <li>{% if user.username %}
-                               <a href="{% url 'accounts:display_student_profile' %}"> PROFILE
-                                {% endif %}
-                               </a>
-                            </li>
-
-
-                            <li>
-                                {% if user.username %}
-                                <a href="{% url 'accounts:logout_user' %}"
-                                <b>Welcome {{ user.username }}!  LOGOUT</b></a>
-                                {% else %}
-
-                            </li><li>
-                               <li>
-                    <a href="{% url 'accounts:login_user' %}">
-                         LOGIN
-                        {% endif %}
-
+      <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a><font color="red">
+                        <span class="glyphicon glyphicon-phone-alt" style="font-size: 15px;"></span>
+                        LIVE SUPPORT: +977-9849472519
+                        </font>
+                       <span class="sr-only">(current)</span>
                     </a>
                 </li>
 
+                    {% if user.username %}
+                <li>
+
+                    <a href="">
+                    <font color="#D0CEC5">Welcome!  <b> {{ user.username|upper }}</b>
+                    </font>
+
+                    </a>
+                    {% else %}
+                </li>
+
+                <li>
+                    <form class="navbar-form navbar-left">
+                        <button type="submit" class="btn btn-warning" style="margin-right:15px">
+                           <a href="{% url 'accounts:login_user' %}"> LOGIN</a>
+                        </button>
 
 
-                        </ul>
+                        <button type="submit" class="btn btn-warning">
+                           <a href="{% url 'accounts:register' %}"> REGISTER</a>
+                        </button>
 
-                    </ul>
-                </div>
-        </div>
+
+                    </form>
+                </li>
+        {% endif %}
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
 </nav>

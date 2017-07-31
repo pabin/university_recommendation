@@ -1,0 +1,60 @@
+ {% extends 'base.html' %}
+ {% load crispy_forms_tags %}
+ {% load staticfiles %}
+
+ {% block one %}
+ {% endblock %}
+
+{% block body %}
+
+ <div class="container">
+    <div style="float: left; width: 40%;">
+
+        <h3><b>Faces Behind UniGrade</b></h3><br/>
+
+        <div class="row">
+          <div class="col-xs-4 ">
+            <img src="{% static 'home/me.png' %}"  class="img-circle">
+            </div>
+
+            <div class="col-xs-6">
+            <h4><b>Chairman </b></h4>
+              <h4>Pabin R Luitel</h4>
+                <h4>Computer Engineering Pulchowk Campus (IOE) </h4>
+
+            </div>
+        </div><br/>
+
+        <div class="row">
+          <div class="col-sm-4 ">
+            <img src="{% static 'home/kshitiz.jpg' %}"  class="img-circle"></a>
+            </div>
+
+            <div class="col-sm-6">
+            <h4><b>Deputy Chairman </b></h4>
+              <h4> Kshitiz Shrestha</h4>
+                <h4>Computer Engineering Pulchowk Campus (IOE) </h4>
+            </div>
+          </div><br/>
+
+          <div class="row">
+            <div class="col-sm-4 ">
+            <img src="{% static 'home/silwal.png' %}"  class="img-circle"></a>
+            </div>
+
+            <div class="col-sm-6">
+            <h4><b>Managing Director </b></h4>
+              <h4>Pandit Sabin Silwal</h4>
+                <h4>Computer Engineering Pulchowk Campus (IOE) </h4>
+            </div>
+          </div>
+    </div>
+
+    <div style="float: right; width: 60%;">
+        <h3><b>Project Contribution</b></h3><br/>
+                {{ div|safe }}
+                {{ script|safe }}
+    </div>
+</div>
+
+{% endblock %}

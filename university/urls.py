@@ -19,24 +19,17 @@ from django.conf.urls.static import static
 from django.conf.urls import url, include
 from django.contrib import admin
 from home import views as home_views
-#from contact import views as contact_views
-#from student import views as student_views
+from django.conf.urls.static import static
+
 
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     #url(r'^$', home_views.home, name='home'),
     url(r'^$', include('home.urls', namespace="home")),
-
-   # url(r'^contact/$', contact_views.contact, name='contact'),
-  #  url(r'^student/$', student_views.student, name='student'),
-   # url(r'^accounts/', include('allauth.urls')),
     url(r'^accounts/', include('accounts.urls', namespace="accounts")),
     url(r'^recommender/', include('recommender.urls', namespace="recommender")),
-   # url(r'^student/', include('student.urls', namespace="student")),
-    #url(r'^college/', include('college.urls', namespace="college")),
-
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 
 if settings.DEBUG:

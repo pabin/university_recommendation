@@ -1,46 +1,92 @@
  {% extends 'base.html' %}
+ {% load staticfiles %}
+
  {% load crispy_forms_tags %}
 
  {% block one %}
-                <h1> Hello from login page</h1>
- {% endblock %}
+{% endblock %}
 
 {% block body %}
 
-<h1> {{ user.username }}'s Profile </h1>
- <h3>
-        {% for student_profile in all_student_info %}
-     <ul><li>
-         First Name:    {{student_profile.First_Name}}<br/>
-         Last Name:     {{student_profile.Last_Name}}<br/>
-         Intended Major:   {{student_profile.Intended_Major}}<br/>
-         UnderGrad GPA:     {{student_profile.UnderGrad_GPA}}<br/>
-         GRE Verbal Score:  {{student_profile.GRE_Verbal_Score}}<br/>
-         GRE Quant Score:   {{student_profile.GRE_Quant_Score}}<br/>
-         GRE AWA Score:     {{student_profile.GRE_AWA_Score}}<br/>
-     <br/>
-     <b><a href="{% url 'accounts:edit_profile' %}">
-     Edit Profile</a></b>
-     </ul></li>
+  {% for student_profile in all_student_info %}
+ <div style="margin-top:-25px">
+ <div class="page-header">
+    <div class="container" style="padding: 0px 0px 0px 0px">
+            <span class="glyphicon glyphicon-user" style="font-size: 25px;"></span>
+        <font size="6px"><b>{{student_profile.First_Name}} {{student_profile.Last_Name}}</b>
+            <a href="{% url 'recommender:knn_model' %}">
+            <button class="btn btn-primary btn-sm" style="margin-left:0px"><b>
+                RECOMMENDED UNIVERSITIES</b>
+            </button></a>
+
+            <a href="{% url 'accounts:edit_profile' %}">
+            <button class="btn btn-success btn-sm"><b>
+                EDIT PROFILE</b>
+            </button></a>
+        </font>
+    </div>
+ </div>
+
+    <table class="table table-bordered">
+    <tbody>
+        <tr>
+          <th class="col-md-3">Name</th>
+            <td>{{student_profile.First_Name}} {{student_profile.Last_Name}}</td>
+        </tr>
+        <tr>
+          <th>Intended Major</th>
+            <td>{{student_profile.Intended_Major}}</td>
+        </tr>
+        <tr>
+          <th>UnderGrad GPA</th>
+            <td>{{student_profile.UnderGrad_GPA}}</td>
+        </tr>
+      <tr>
+          <th>GRE Verbal Score</th>
+            <td>{{student_profile.GRE_Verbal_Score}}</td>
+      </tr>
+    <tr>
+          <th>GRE Quant Score</th>
+            <td>{{student_profile.GRE_Quant_Score}}</td>
+      </tr>
+    <tr>
+          <th>GRE AWA Score</th>
+            <td>{{student_profile.GRE_AWA_Score}}</td>
+      </tr>
+    <tr>
+          <th>TOEFL Score</th>
+            <td>{{student_profile.TOEFL_Score}}</td>
+    </tr>
+    <tr>
+          <th>Degree</th>
+            <td>{{student_profile.Degree_applying}}</td>
+    </tr>
+    <tr>
+          <th>Status</th>
+            <td>{{student_profile.Student_Status}}</td>
+    </tr>
+    <tr>
+          <th>Projects</th>
+            <td>{{student_profile.List_of_Projects}}</td>
+    </tr>
+    <tr>
+          <th>Internships</th>
+            <td>{{student_profile.Internships}}</td>
+    </tr>
+    <tr>
+          <th>Work Experience</th>
+            <td>{{student_profile.Work_Experience}}</td>
+    </tr>
+    <tr>
+          <th>Paper Publications</th>
+            <td>{{student_profile.Paper_Publications}}</td>
+    </tr>
+    <tr>
+
+    </tbody>
+    </table>
+</div>
         {% endfor %}
- </h3>
- <br/>
-
- <h3><a href="{% url 'recommender:knn_model' %}">
-     Recommended Universities By KNN Algorithm</a></h3>
-     </a></h3>
-
 
 {% endblock %}
 
-{% block two %}
-            <h1><br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-
-
-            </h1>
-            {% endblock %}

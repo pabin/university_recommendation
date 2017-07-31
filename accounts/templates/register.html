@@ -1,51 +1,148 @@
  {% extends 'base.html' %}
  {% load crispy_forms_tags %}
+{% load staticfiles %}
 
  {% block one %}
-                <h1> Hello from Register page</h1>
+ <br/>
  {% endblock %}
 
 
 {% block body %}
 <div class="container-fluid">
+    {% if user.username %}
 
-    <div class="row">
-        <div class="col-sm-12 col-md-6">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <h3>Register for an Account</h3>
-                    {% if error_message %}
-                        <p><strong>{{ error_message }}</strong></p>
-                    {% endif %}
-                    <form class="form-horizontal" role="form"
-                          action="{% url 'accounts:display_student_profile' %}" method="post"
-                          enctype="multipart/form-data">
-                        {% csrf_token %}
-                        {% include 'form_template.html' %}
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <button type="submit" class="btn btn-success">Submit</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="panel-footer">
+    <div style="min-height: 50%;">
+    <h4> You are already a Registered Member</h4>
+    <h5><a href="{% url 'accounts:logout_user' %}">LOGOUT</a> to Create Another Account</h5>
+    </div>
+    {% else %}
+
+  <h2>Register UniGrade Account</h2>
+                    <div class="panel-footer">
                     Already have an account? <a href="{% url 'accounts:login_user' %}">
                     Click here</a> to log in.
                 </div>
-            </div>
-        </div>
-    </div>
+  <form method="post">
+    {% csrf_token %}
+    {% for field in basic_form %}
+      <p>
+        {{ field.label_tag }}<br>
+        {{ field }}
+        <!--{% if field.help_text %}-->
+          <!--<small style="color: grey">{{ field.help_text }}</small>-->
+        <!--{% endif %}-->
+        {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+      </p>
+    {% endfor %}
 
+    {% for field in detail_form %}
+      <p>
+        {{ field.label_tag }}<br>
+        {{ field }}
+        {% if field.help_text %}
+          <small style="color: grey">{{ field.help_text }}</small>
+        {% endif %}
+        {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+      </p>
+    {% endfor %}
+
+    <button type="submit">Sign up</button>
+  </form>
+    {% endif %}
 </div>
+
+ <!--<body style="background:transparent url('{% static 'media/loginback.jpg' %}') no-repeat; display: block; max-width: 100%; height: auto;">-->
+
+ <!--<div class=login-form >-->
+    <!--<div class="container">-->
+    <!--<div class="row">-->
+      <!--<div class="col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-4">-->
+        <!--<div class="panel panel-default" style="background-color: rgba(245,245,245, 0.6);">-->
+
+          <!--<div class="panel-body">-->
+
+            <!--<form role="form" action="{% url 'accounts:login_user' %}"-->
+                  <!--method="POST" name="login" >-->
+              <!--{% csrf_token %}-->
+                <!--<fieldset>-->
+                <!--<div class="row">-->
+
+                  <!--<div class="center-block"> <img class="profile-img" src="" class="img-responsive" alt=""> </div>-->
+                  <!--<h5 align="center"><b><font color="green" size="4"> Create UniGrade Account: </font></b></h5>-->
+
+                    <!--{% if error_message %}-->
+                        <!--<p><strong>{{ error_message }}</strong></p>-->
+                    <!--{% endif %}-->
+
+                  <!--<hr>-->
+                <!--</div>-->
+                <!--<div class="row">-->
+                  <!--<div class="col-sm-12 col-md-10  col-md-offset-1 ">-->
+                      <!--{% csrf_token %}-->
+
+                    <!--<div class="form-group">-->
+                    <!--<label>Username :</label>-->
+                      <!--<div class="input-group"> <span class="input-group-addon"> <i class="glyphicon glyphicon-user"></i> </span>-->
+                        <!--<input class="form-control" placeholder="Username"-->
+                                  <!--name="username" type="text" required="required" id="id_username" autofocus>-->
+                      <!--</div>-->
+                    <!--</div>-->
+
+                      <!--<div class="form-group">-->
+                    <!--<label>Email :</label>-->
+                      <!--<div class="input-group"> <span class="input-group-addon"> <i class="glyphicon glyphicon-envelope"></i> </span>-->
+                        <!--<input class="form-control" placeholder="Useremail"-->
+                                  <!--name="username" type="text" required="required" id="id_username" autofocus>-->
+                      <!--</div>-->
+                      <!--</div>-->
+
+                    <!--<div class="form-group">-->
+                     <!--<label>Password:</label>-->
+                      <!--<div class="input-group"> <span class="input-group-addon"> <i class="glyphicon glyphicon-lock"></i> </span>-->
+                        <!--<input class="form-control" placeholder="Password"-->
+                                    <!--name="password" type="password" id="id_password" required="required" value="">-->
+                      <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<font color="red">-->
+                    <!--{% if error_message %}-->
+                        <!--<p><strong>{{ error_message }}</strong></p>-->
+                    <!--{% endif %}-->
+                    <!--</font>-->
+
+                    <!--<div class="form-group">-->
+                     <!--<label>-->
+                       <!--</label> <input type="submit" class="btn btn-success"-->
+                                  <!--name="submit" value="SIGN UP" >-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</fieldset>-->
+            <!--</form>-->
+                                      <!--<h5 align="center"><b>Already have a UniGrade Account?   </b></h5>-->
+                    <!--<form name="signin" action="{% url 'accounts:login_user' %}">-->
+                        <!--<input type="submit" class="btn btn-success  btn-block"-->
+                            <!--name="submit" value="SIGN IN" >-->
+                    <!--</form>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
+
+
 
 {% endblock %}
 
 {% block two %}
             <h1><br/>
-            <br/>
-            <br/>
-            <br/>
+
 
 
             </h1>

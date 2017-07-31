@@ -1,0 +1,55 @@
+ {% extends 'base.html' %}
+ {% load staticfiles %}
+ {% load crispy_forms_tags %}
+
+ {% block one %}
+ {% endblock %}
+
+ {% block body %}
+ <div class='container' style="min-height:50%;">
+     <div class="panel-footer" style="margin: 10px 0px 10px 0px; height: 40px;
+                                padding: 0px 0px 10px 15px;">
+         <h4><b>University Dashboard</b></h4>
+     </div>
+  {% for universities in universities_added %}
+    <div class="col-md-3" style="min-height:50%;">
+     <img src="{% static 'accounts/college3.jpg' %}" class="img-thumbnail">
+        <tr>
+            <td>
+                <h4><b>{{ universities }} </b></h4>
+            </td>
+
+            <td>
+                <form action="{% url 'home:home' %}" method="get" style="display: inline;">
+            <input type="hidden" name="q" value="{{ universities }}" />
+            <button type="submit" class="btn btn-primary btn-xs" value = "{{ request.POST.q }}">
+                &nbsp; View Details
+            </button>
+                </form>
+            </td>
+
+            <td>
+                <form action="{% url 'accounts:delete_dashboard_university' universities.id %}"
+                      method="post" style="display: inline;">
+            {% csrf_token %}
+            <input type="hidden" name="universities" value="{{ universities.id }}" />
+            <button type="submit" class="btn btn-default btn-xs">
+                <span class="glyphicon glyphicon-trash"></span>&nbsp; Delete
+            </button>
+                </form>
+            </td>
+
+        </tr>
+    </div>
+
+     {% endfor %}
+     <!--{% if error_message != None %}-->
+     <div class="alert alert-success">
+        <strong>Success!</strong> {{ error_message }}
+    </div>
+     <!--{% endif %}-->
+  </div>
+
+
+ {% endblock %}
+

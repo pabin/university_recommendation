@@ -9,12 +9,10 @@ https://docs.djangoproject.com/en/1.8/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.8/ref/settings/
 """
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
@@ -26,7 +24,6 @@ SECRET_KEY = 'mog92a^h!i#=_#0eg)dbm^*&1zc61jb&7r%zm05%7ybo6balj='
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -41,9 +38,8 @@ INSTALLED_APPS = (
     'recommender',
     'accounts',
     'crispy_forms',
-    'django.contrib.sites'
+    'django.contrib.sites',
 )
-
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -80,9 +76,7 @@ AUTHENTICATION_BACKENDS = (
     # `allauth` specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
 )
-
 WSGI_APPLICATION = 'university.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
@@ -93,7 +87,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -110,7 +103,8 @@ USE_TZ = True
 
 if DEBUG:
     MEDIA_URL = '/media/'
-    STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static", "static-only")
+    STATIC_ROOT = "/home/raj/PycharmProjects/university_recommendation/static/"
+    # STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static", "static-only")
     MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static", "media")
     STATICFILES_DIRS = (
         os.path.join(os.path.dirname(BASE_DIR), "static", "static"),
@@ -119,6 +113,7 @@ if DEBUG:
     # Static files (CSS, JavaScript, Images)
     # https://docs.djangoproject.com/en/1.8/howto/static-files/
     STATIC_URL = '/static/'
+    MEDIA_URL = '/static/images/'
 
     CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
@@ -126,6 +121,4 @@ if DEBUG:
 
     LOGIN_URL = 'accounts/login/'
     LOGIN_REDIRECT_URL = '/'
-
-
 AUTH_PROFILE_MODULE = 'accounts.student_info'

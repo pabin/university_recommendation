@@ -2,36 +2,36 @@
  {% load crispy_forms_tags %}
 
  {% block one %}
-                <h1> Hello from login page</h1>
  {% endblock %}
 
 {% block body %}
 
-<h1> Edit {{ user.username }}'s Profile </h1>
- <h3>
-
+ <div class="container">
+<h4> Edit Profile </h4>
 
                 <form method = "POST">
                     {% csrf_token %}
-                    {{form.as_p}}
+
+         {% for field in editable_form %}
+      <p>
+        {{ field.label_tag }}<br>
+        {{ field }}
+
+        {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+      </p>
+    {% endfor %}
                     <button type="Submit">SAVE</button>
+
                 </form>
 
+</div>
 
-
- </h3>
 
 
 {% endblock %}
 
 {% block two %}
-            <h1><br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
 
-
-            </h1>
             {% endblock %}

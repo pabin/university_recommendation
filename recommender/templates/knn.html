@@ -1,32 +1,135 @@
  {% extends 'base.html' %}
  {% load crispy_forms_tags %}
+{% load staticfiles %}
 
  {% block one %}
-                <h1> Hello from login page</h1>
- {% endblock %}
+{% endblock %}
 
 {% block body %}
-
- <h2>Recommended Universities for {{ user.username }}</h2>
-        {% for universities in list %}
-
- <b><p><a href="{% url 'home:home' %}">{{ universities }}</a></p></b>
-        {% endfor %}
+     <div class="panel-footer" style="margin: 10px 0px 10px 0px; height: 40px;
+                                padding: 0px 0px 10px 15px;">
+         <h4><b>Best University Recommendation</b></h4>
+     </div>
 
 
+   {% for best_university_prediction in best_university_prediction %}
+    <div class="col-md-12" style="min-height:48%;">
+            <div class="col-md-3">
+
+    <img src="{% static 'recommender/college2.jpg' %}" class="img-thumbnail">
+                <h4><b>{{ best_university_prediction }} </b></h4>
+                    <div class="col-md-4">
+                    <form action="{% url 'home:home' %}" method="get"">
+            <input type="hidden" name="q" value="{{ best_university_prediction }}" />
+            <button type="submit" class="btn btn-primary btn-xs" value = "{{ request.POST.q }}"
+            style="margin-left:-12px;">
+                &nbsp; View Details
+            </button>
+                        </form></div>
+                    <div class="col-md-6">
+            <form class="form-inline" role="search" method="get"
+            action="{% url 'accounts:student_dashboard' %}">
+                 <input type='hidden' class="form-control"
+                    name="q" value="{{ best_university_prediction }}">
+                <button class="btn btn-default btn-xs" value = "{{ request.POST.q }}"><b>
+                    <span class="glyphicon glyphicon-floppy-save"></span>
+                    SAVE</b>
+                    </button>
+            </form></div>
+            </div>
+    </div>
+
+     {% endfor %}
+
+ <div>
+     <br/>
+ </div>
+
+<div style="padding-top: 50px;">
+    <h3 align="left"><b>Some More Recommended Universities</b></h3>
+   {% for university_where_accepted in university_where_accepted %}
+    <div class="col-md-2" style="min-height:40%;">
+     <img src="{% static 'recommender/college1.jpg' %}" class="img-thumbnail">
+
+
+        <h4><b>{{ university_where_accepted }} </b></h4>
+
+            <div class="col-md-4">
+                <form action="{% url 'home:home' %}" method="get">
+            <input type="hidden" name="q" value="{{ university_where_accepted }}" />
+            <button type="submit" class="btn btn-primary btn-xs" value = "{{ request.POST.q }}"
+            style="margin-left:-15px;">
+                &nbsp; View Details
+            </button>
+                </form></div>
+
+
+            <div class="col-md-4">
+            <form class="form-inline" role="search" method="get"
+            action="{% url 'accounts:student_dashboard' %}">
+                 <input type='hidden' class="form-control"
+                    name="q" value="{{ university_where_accepted }}">
+                <button class="btn btn-default btn-xs" value = "{{ request.POST.q }}"
+                style="margin-left:20px;"><b>
+                    <span class="glyphicon glyphicon-floppy-save"></span>
+                    SAVE</b>
+                    </button>
+            </form></div>
+
+    </div>
+     {% endfor %}
+</div>
+
+     <!--<h3 align="left">More Similar Universities</h3>-->
+   <!--{% for universities_for_recommendation in universities_for_recommendation %}-->
+    <!--<div class="col-md-3" style="min-height:37%;">-->
+     <!--<img src="{% static 'media/top1.jpg' %}">-->
+        <!--<tr>-->
+            <!--<td>-->
+        <!--<h4>{{ universities_for_recommendation }} </h4>-->
+            <!--</td>-->
+
+            <!--<td>-->
+                <!--<form action=""-->
+                      <!--method="post" style="display: inline;">-->
+            <!--{% csrf_token %}-->
+            <!--<input type="hidden" name="universities" value="" />-->
+            <!--<button type="submit" class="btn btn-primary btn-xs">-->
+                <!--&nbsp; View Details-->
+            <!--</button>-->
+                <!--</form>-->
+            <!--</td>-->
+
+            <!--<td>-->
+            <!--<form class="form-inline" role="search" method="get"-->
+            <!--action="{% url 'accounts:student_dashboard' %}">-->
+                 <!--<input type='hidden' class="form-control"-->
+                    <!--name="q" value="{{ universities_for_recommendation }}">-->
+                <!--<button class="btn btn-info btn-xs" value = "{{ request.POST.q }}"><b>-->
+                    <!--SAVE UNIVERSITY</b>-->
+                    <!--</button>-->
+            <!--</form>-->
+            <!--</td>-->
+
+        <!--</tr>-->
+    <!--</div>-->
+
+     {% endfor %}
+
+
+
+   <!--<h5>Overall Admission Prediction with your Score </h5>-->
+        <!--{% for admission_prediction in admission_prediction %}-->
+ <!--<b><p>{{ admission_prediction }}</p></b>-->
+        <!--{% endfor %}-->
+    <!--<br/>-->
+
+
+
+  <!--<h5>Universities where you might be Rejected</h5>-->
+ <!--{% for universities in university_where_rejected %}-->
+ <!--<b><p><a href="{% url 'home:home' %}">{{ universities }}</a></p></b>-->
+        <!--{% endfor %}-->
 
 
 {% endblock %}
-{% block two %}
-            <h1><br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-
-            </h1>
-            {% endblock %}
