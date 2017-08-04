@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 # --Database Model for Student's Information--
 class student_info(models.Model):
-    user = models.OneToOneField(User, on_delete= models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     First_Name = models.CharField(max_length=500)
     Last_Name = models.CharField(max_length=500)
     Intended_Major = models.CharField(max_length=500)
@@ -15,11 +15,11 @@ class student_info(models.Model):
     TOEFL_Score = models.CharField(max_length=500)
     Degree_applying = models.CharField(max_length=500)
     Student_Status = models.CharField(max_length=500)
-    List_of_Projects = models.TextField()
-    Internships = models.TextField()
-    Work_Experience = models.TextField()
-    Paper_Publications = models.TextField()
-    Universities_Added = models.TextField()
+    # List_of_Projects = models.TextField()
+    # Internships = models.TextField()
+    # Work_Experience = models.TextField()
+    # Paper_Publications = models.TextField()
+    # Universities_Added = models.TextField()
 
     def __str__(self):
         return self.First_Name + ' ' + self.Last_Name + ' - ' + self.Intended_Major

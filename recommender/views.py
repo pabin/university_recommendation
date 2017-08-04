@@ -17,6 +17,7 @@ style.use('ggplot')
 def knn_model(request):
     user = User.objects.get(username=request.user.username)
     all_student_info = student_info.objects.filter(user=user)
+    print (all_student_info)
 
     for major in all_student_info:
         intended_major = major.Intended_Major
@@ -105,8 +106,10 @@ def best_university_prediction_using_knn(csv_filepathname, intended_major, examp
 
     uni_scores = cross_val_score(knn_for_university, X, y, cv=5, scoring='accuracy')
     cross_validated_accuracy_university_prediction = uni_scores.mean()
+    print ('--------------------------------------------------')
 
-    print ('--Cross Validated Accuracy', cross_validated_accuracy_university_prediction)
+    print ('Cross_Validated_Accuracy_University_prediction', cross_validated_accuracy_university_prediction)
+    print ('--------------------------------------------------')
 
     # --fitting the model--
     knn_for_university.fit(X_train, y_train)
@@ -115,13 +118,15 @@ def best_university_prediction_using_knn(csv_filepathname, intended_major, examp
     predicted = knn_for_university.predict(X_test)
 
     # --evaluate accuracy--
-    print ('Accuracy % for University Recommendation:', accuracy_score(y_test, predicted))
+    # print ('Accuracy % for University Recommendation:', accuracy_score(y_test, predicted))
     # example = np.array([student_gpa_normalized, student_verbal_score_normalized,
     #                     student_quant_score_normalized, student_awa_score_normalized, toefl_score_normalized])
     # example = example.reshape(1, -1)
+    print ('--------------------------------------------------')
 
     best_university_prediction = knn_for_university.predict(example)
-    print ("Best Recommended University: ", best_university_prediction)
+    print ("Best_Recommended_University_KNN: ", best_university_prediction)
+    print ('--------------------------------------------------')
 
     return (best_university_prediction)
 
@@ -135,7 +140,7 @@ def admission_prediction_using_knn(csv_filepathname, intended_major, example):
 
     db = pd.read_csv(csv_filepathname, names=names, header=None)
     db.fillna(0, inplace=True)
-    db1 = db[(db['Major'] == intended_major)]
+    db1 = db[(db['Major'] == intended_major) & (db['class'] == "Accepted")]
     db09 = db1
     db10 = db1
     db11 = db1
@@ -157,7 +162,7 @@ def admission_prediction_using_knn(csv_filepathname, intended_major, example):
     x1_train, x1_test, y1_train, y1_test = train_test_split(x1, y1, test_size=0.20, random_state=4)
 
     def check_value_of_k_for_knn(x_data, y_data):
-        k_range = range(1, 31, 1)
+        k_range = range(1, 100, 5)
         k_scores = []
         for k in k_range:
             knn = KNeighborsClassifier(k, weights='uniform')
@@ -178,7 +183,7 @@ def admission_prediction_using_knn(csv_filepathname, intended_major, example):
         plt.show()
         return
 
-    #check_value_of_k_for_knn(x1, y1)
+    # check_value_of_k_for_knn(x1, y1)
 
     # --instantiate learning model (k = 15)--
     knn_for_admission = KNeighborsClassifier(n_neighbors=15)
@@ -194,20 +199,19 @@ def admission_prediction_using_knn(csv_filepathname, intended_major, example):
 
     # --evaluate accuracy--
     accuracy_for_admission_predicted = accuracy_score(y1_test, admission_predicted)
-    print ('Accuracy % for Admisssion Prediction:', accuracy_for_admission_predicted)
+    # print ('Accuracy % for Admisssion Prediction:', accuracy_for_admission_predicted)
 
     admission_prediction = knn_for_admission.predict(example)
-    print ("Your Admission Prediction: ", admission_prediction)
+    # print ("Your Admission Prediction: ", admission_prediction)
 
     distance_and_index_of_nearest_neighbors = knn_for_admission.kneighbors(example)
-    print (distance_and_index_of_nearest_neighbors)
+    # print (distance_and_index_of_nearest_neighbors)
     uni_name_for_acp_and_rej = z11[distance_and_index_of_nearest_neighbors[1]]
-    print ("-----------")
     only_accepted = np.array([])
     only_rejected = np.array([])
 
     # ---Distinguish Accepted and Rejected Decision for university---
-    for counter in range(0, 12, 1):
+    for counter in range(0, 8, 1):
         if 'Accepted' in uni_name_for_acp_and_rej[0, counter]:
             count_accepted = uni_name_for_acp_and_rej[0, counter]
             only_accepted = np.append(only_accepted, count_accepted)
@@ -292,7 +296,6 @@ def k_means_clustering_for_similar_universities(best_university_predicted, inten
         return info_list
 
     example = get_university_details_for_clustering(best_university, intended_major, df)
-    print ('this on', example)
 
     universities = df.University
 
@@ -327,7 +330,10 @@ def k_means_clustering_for_similar_universities(best_university_predicted, inten
 
     universities_and_cluster_number = cluster_map[np.array(cluster_map.cluster) == cluster_number]
     required_universities_for_recommendation = np.array(universities_and_cluster_number['University'])
+    print ('--------------------------------------------------')
+    print ('-------Similar_Universities_By_K_Means_Clustering--------')
 
     print (required_universities_for_recommendation)
+    print ('--------------------------------------------------')
 
     return required_universities_for_recommendation

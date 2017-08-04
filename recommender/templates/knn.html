@@ -19,7 +19,7 @@
     <img src="{% static 'recommender/college2.jpg' %}" class="img-thumbnail">
                 <h4><b>{{ best_university_prediction }} </b></h4>
                     <div class="col-md-4">
-                    <form action="{% url 'home:home' %}" method="get"">
+                    <form action="{% url 'home:home' %}" target="_blank" method="get">
             <input type="hidden" name="q" value="{{ best_university_prediction }}" />
             <button type="submit" class="btn btn-primary btn-xs" value = "{{ request.POST.q }}"
             style="margin-left:-12px;">
@@ -55,7 +55,7 @@
         <h4><b>{{ university_where_accepted }} </b></h4>
 
             <div class="col-md-4">
-                <form action="{% url 'home:home' %}" method="get">
+                <form action="{% url 'home:home' %}" target="_blank" method="get">
             <input type="hidden" name="q" value="{{ university_where_accepted }}" />
             <button type="submit" class="btn btn-primary btn-xs" value = "{{ request.POST.q }}"
             style="margin-left:-15px;">

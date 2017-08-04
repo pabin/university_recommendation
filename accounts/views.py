@@ -3,7 +3,6 @@ from django.contrib.auth import logout
 from accounts.models import student_info
 from accounts.models import users_university
 from .models import User
-from accounts.forms import EditProfileForm
 from .forms import UserForm
 from .forms import StudentForm
 from bokeh.plotting import figure
@@ -59,7 +58,7 @@ def register(request):
 
             user = authenticate(username=username, password=password)
             login(request, user)
-            return render(request, 'register.html')
+            return redirect('/')
     else:
         basic_forms = UserForm()
         detail_forms = StudentForm()
@@ -80,20 +79,42 @@ def display_student_profile(request):
     return render(request, 'profile.html', context)
 
 
-# --Edit User Profile(Not working Now)--
 def edit_profile(request):
-    if request.method == 'POST':
-        editable_form = EditProfileForm(request.POST, instance=request.user)
+    user = User.objects.get(username=request.user.username)
+    all_student_info = student_info.objects.filter(user=user)
 
-        if editable_form.is_valid():
-            editable_form.save()
+    for student_details in all_student_info:
+
+        student_details_form = StudentForm(request.POST or None,
+                                           initial={'Intended_Major': student_details.Intended_Major,
+                                                    'UnderGrad_GPA': student_details.UnderGrad_GPA,
+                                                    'GRE_Verbal_Score': student_details.GRE_Verbal_Score,
+                                                    'GRE_Quant_Score': student_details.GRE_Quant_Score,
+                                                    'GRE_AWA_Score': student_details.GRE_AWA_Score,
+                                                    'TOEFL_Score': student_details.TOEFL_Score,
+                                                    'Student_Status': student_details.Student_Status,
+                                                    'Degree_applying': student_details.Degree_applying,
+                                                    })
+
+        if request.method == 'POST':
+            student_details.Intended_Major = request.POST['Intended_Major']
+            student_details.UnderGrad_GPA = request.POST['UnderGrad_GPA']
+            student_details.GRE_Verbal_Score = request.POST['GRE_Verbal_Score']
+            student_details.GRE_Quant_Score = request.POST['GRE_Quant_Score']
+            student_details.GRE_AWA_Score = request.POST['GRE_AWA_Score']
+            student_details.TOEFL_Score = request.POST['TOEFL_Score']
+            student_details.Student_Status = request.POST['Student_Status']
+            student_details.Degree_applying = request.POST['Degree_applying']
+
+            student_details.save()
+
             return redirect('/accounts/profile')
 
-    else:
-        editable_form = EditProfileForm(instance=request.user)
+        context = {
+            "student_details_form": student_details_form
+        }
 
-        return render(request, 'edit_profile.html', {'editable_form': editable_form})
-
+    return render(request, "edit_profile.html", context)
 
 # ------Add New Universities to User Dashboard and Displays universities------
 def student_dashboard(request):

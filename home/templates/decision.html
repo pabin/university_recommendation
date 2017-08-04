@@ -10,10 +10,23 @@
 {% if admission_decision_accuracy != None %}
 <div class="container">
     <h3 align="left">Your Admission Prediction in <b>{{ university_name }}</b></h3>
-<br/>
-     {{ div|safe }}
+     <!--{{ div|safe }}-->
 
-    {{ script|safe }}
+    <!--{{ script|safe }}-->
+   <!--<br/>-->
+    <!--<h3>Result From SVM</h3>-->
+
+     {{ svm_decision_div|safe }}
+     {{ svm_decision_script|safe }}
+
+    <!--<br/><h3>Result From Random Forest</h3>-->
+
+        <!--{{ div|safe }}-->
+        <!--{{ script|safe }}-->
+   <!--<br/>-->
+
+         <!--{{ rf_decision_div|safe }}-->
+         <!--{{ rf_decision_script|safe }}-->
 
 </div>
 {% endif %}
